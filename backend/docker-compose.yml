@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    command: flask run --host=0.0.0.0 --port=5000
+    environment:
+            - FLASK_APP=manage.py
+    volumes:
+      - .:/riade/OneDrive/Desktop/flask_react_web3/backend/
+    ports:
+      - 5000:5000
+    env_file: .env
+    depends_on:
+      - db
+  db:
+    image: postgres
+    env_file: .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+
+volumes:
+  postgres_data:
