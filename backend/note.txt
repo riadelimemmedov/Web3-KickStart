@@ -1,0 +1,4 @@
+If a problem occurs connect postgres images and insert row to table,but not update table
+1)Down All Container => docker compose down
+2)Delete All Volumes => docker volume rm $(docker volume ls -q)
+3)Delete Related Container To Postgress => docker image rm container_name

@@ -22,8 +22,6 @@ class CampaignShow extends Component {
 
         const summary = await campaign.methods.getSummary().call()
 
-        console.log('All summary at show js file ', summary)
-        console.log('current address url ', props.query.address)
 
         return {
             selectedAdress:props.query.address,

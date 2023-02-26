@@ -14,7 +14,6 @@ import Layout from '../components/Layout.js'
 class Campaign extends Component{
     static async getInitialProps(){
         const campaigns = await campaign_factory.methods.getDeployedCampaigns().call()
-        console.log('all deployed campaign ', campaigns)
         return {campaigns}
     }
 

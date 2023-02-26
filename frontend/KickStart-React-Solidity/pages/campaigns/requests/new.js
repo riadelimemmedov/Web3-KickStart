@@ -28,7 +28,6 @@ class RequestNew extends Component{
 
     static async getInitialProps(props){
         const { address } = props.query
-        console.log('address is neyse bele bir sey ', web3.eth.getAccounts())
         return { address }
     }
 
@@ -53,7 +52,6 @@ class RequestNew extends Component{
         catch(err){
             this.setState({errorMessage:err.message})
         }
-        console.log('bitti metamask')
         this.setState({loading:false,isButtonDisabled:false})
 
     }

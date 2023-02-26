@@ -42,6 +42,7 @@ class CampaignNew extends Component  {
             const blockNumber = await web3.eth.getBlockNumber(console.log)
             console.log('Block Number ', blockNumber)
             console.log('Campaign Number ', campaign)
+            console.log('Campaign Type ', typeof campaign)
 
             Router.pushRoute('/')//Router => using to redirect after some process
         }
