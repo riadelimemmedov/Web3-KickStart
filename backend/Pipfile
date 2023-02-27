@@ -13,6 +13,8 @@ waitress = "*"
 py-mon = "*"
 watchdog = "*"
 python-decouple = "*"
+flask-migrate = "*"
+requests = "*"
 
 [dev-packages]
 

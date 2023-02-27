@@ -23,6 +23,19 @@ class CampaignNew extends Component  {
         isButtonDisabled:null
     }
 
+    saveTransaction(campaign){
+        const path = "http://localhost:5000/create/transaction"
+        const requestOptions = {
+            method:'POST',
+            headers:{'Content-Type': 'application/json'},
+            body:JSON.stringify({campaign})
+        }
+
+        fetch(path,requestOptions)
+            .then((response) => response.json())
+            .then((data) => console.log('Data', data))
+    }
+
     // if javascript !"hello" => false
     
     onSubmit = async (event) => {
@@ -42,7 +55,9 @@ class CampaignNew extends Component  {
             const blockNumber = await web3.eth.getBlockNumber(console.log)
             console.log('Block Number ', blockNumber)
             console.log('Campaign Number ', campaign)
-            console.log('Campaign Type ', typeof campaign)
+            console.log('Campaign Type ', typeof campaign)    
+            this.saveTransaction(campaign)        
+            
 
             Router.pushRoute('/')//Router => using to redirect after some process
         }
