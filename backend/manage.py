@@ -14,13 +14,13 @@ import requests
 from datetime import datetime
 
 
-#*configution
+#?configution
 DEBUG=True
 
 print('Database Url Value ', config("DATABASE_URL"))
 
 
-#*instantiate the app
+#?instantiate the app
 app = Flask(__name__)
 # app.config['SQLALCHEMY_DATABASE_URI'] = config("DATABASE_URL")
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////Users/riade/SQLITE/backend.db'
@@ -28,12 +28,13 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config.from_object(__name__)
 db = SQLAlchemy(app) 
 
-#*enable CORS
+#?enable CORS
 cors = CORS(app, resources={r'/*': {'origins': '*'}})
 
 
 #--------------------------------------------------------------------------------------------------------------------------
 
+#*Block
 class Block(db.Model,SerializerMixin):
     __tablename__ = 'block'
     
@@ -48,6 +49,7 @@ class Block(db.Model,SerializerMixin):
     
     
 
+#*Transaction
 class Transaction(db.Model,SerializerMixin):
     
     __tablename__ = 'transaction'
@@ -73,6 +75,8 @@ def pingPongView():
     return {'Ping':'Pong'}
 
 
+
+#!createBlock
 def createBlock(blockNumber):
     url = "https://api-goerli.etherscan.io/api?module=block&action=getblockreward&blockno={}&apikey={}".format(blockNumber,config('API_KEY_GEORLI'))
     print('Result Url ', url)
@@ -90,6 +94,7 @@ def createBlock(blockNumber):
     db.session.commit()
     print('Ne verdi bas ', new_block)
     return make_response(jsonify({'Transaction Created Successfully':new_block},201))
+
 
 
 #!createTransaction
@@ -126,6 +131,25 @@ def getAllTransactions():
         print('Transaction ', transactions)
         print('noldu')
         return make_response(jsonify([transaction.json() for transaction in transactions]),200)
+    
+    
+#!deleteTransaction
+@app.route('/delete/transaction/<int:id>',methods=['DELETE'])
+def deleteTransaction(id):
+        transaction = Transaction.query.get(id)
+        db.session.delete(transaction)
+        db.session.commit()
+        return make_response(jsonify({'message': 'Transaction Delete Successfully'}),200)
+
+
+#!deleteBlock
+@app.route('/delete/block',methods=['GET'])
+def deleteBlock():
+        print('All Block ', Block.query.all())
+        # transaction = Block.query.get(id)
+        # db.session.delete(transaction)
+        # db.session.commit()
+        return make_response(jsonify({'message': 'Transaction Delete Successfully'}),200)
 
 
 if __name__ =='__main__':  
