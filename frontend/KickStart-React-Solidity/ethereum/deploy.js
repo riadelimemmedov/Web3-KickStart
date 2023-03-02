@@ -22,7 +22,7 @@ const deploy = async () => {
         .deploy({data:compiledCampaignFactory.evm.bytecode.object})
         .send({from:accounts[0],gas:'4712388'})
 
-    
+    console.log('deployed campaign addrerss ', factory.options.address)
 
     //call createCampaing method and create fake a number of campaifn for test front end application
     await factory.methods.createCampaign('100').send({

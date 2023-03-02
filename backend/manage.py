@@ -77,23 +77,23 @@ def pingPongView():
 
 
 #!createBlock
-def createBlock(blockNumber):
-    url = "https://api-goerli.etherscan.io/api?module=block&action=getblockreward&blockno={}&apikey={}".format(blockNumber,config('API_KEY_GEORLI'))
-    print('Result Url ', url)
-    response = requests.get(url).json()
+@app.route('/create/block/<int:block_number>',methods=['POST'])
+def createBlock(block_number):
+    print('call createa block funtion ', block_number)
+    url = "https://api-goerli.etherscan.io/api?module=block&action=getblockreward&blockno={}&apikey={}".format(block_number,config('API_KEY_GEORLI'))
+    response = requests.get(url).json()    
     
-    print('sene noldue ', response)
+    timeStamp = datetime.fromtimestamp(int(response['result']['timeStamp'])).strftime('%Y-%d-%m')
     
     new_block = Block(
-        blockNumber = response["blockNumber"],
-        timeStamp = datetime.fromtimestamp(response["timeStamp"]).strftime('%Y-%d-%m'),
-        blockMiner = response['blockMiner'],
+        blockNumber = response['result']['blockNumber'],
+        timeStamp = timeStamp,
+        blockMiner = response['result']['blockMiner'],
         isComplete = True if response['status'] == "1" else False 
     )
     db.session.add(new_block)
     db.session.commit()
-    print('Ne verdi bas ', new_block)
-    return make_response(jsonify({'Transaction Created Successfully':new_block},201))
+    return make_response(jsonify({'Message':'Block Created Successfully'},201))
 
 
 
@@ -103,9 +103,7 @@ def createTransaction():
     try:
         if request.method  == 'POST':
             data = request.get_json()['campaign']
-            
-            print('Data Value ', data)
-            
+                        
             new_transactions = Transaction(
                 blockHash=data['blockHash'],
                 fromUser=data['from'],
@@ -116,41 +114,48 @@ def createTransaction():
             ) 
             db.session.add(new_transactions)
             db.session.commit()
-            print('Block Number Value ', data['blockNumber'])
-            createBlock(data['blockNumber'])
+            requests.post("http://localhost:5000/create/block/{}".format(data['blockNumber']))
             return make_response(jsonify({'message':'Transaction Created Successfully'},201))
     except:
-        return make_response(jsonify({'message': 'Error Transaction Creating'}), 500)
+        return make_response(jsonify({'message': 'Error When Creating Transaction'}),500)
+
+
 
 
 #!getAllTransactions
 @app.route('/transactions',methods=['GET'])
 def getAllTransactions():
         transactions = Transaction.query.all()
-        blocks = Block.query.all()
-        print('Transaction ', transactions)
-        print('noldu')
         return make_response(jsonify([transaction.json() for transaction in transactions]),200)
-    
-    
+
+
+#!getAllBlocks
+@app.route('/blocks',methods=['GET'])
+def getAllBlocks():
+    blocks = Block.query.all()
+    return make_response(jsonify([block.json() for block in blocks]),200)
+
+
+
+
 #!deleteTransaction
-@app.route('/delete/transaction/<int:id>',methods=['DELETE'])
-def deleteTransaction(id):
-        transaction = Transaction.query.get(id)
+@app.route('/delete/transaction/<int:transaction_id>',methods=['DELETE'])
+def deleteTransaction(transaction_id):
+        transaction = Transaction.query.get(transaction_id)
         db.session.delete(transaction)
         db.session.commit()
-        return make_response(jsonify({'message': 'Transaction Delete Successfully'}),200)
+        return make_response(jsonify({'message':'Transaction Delete Successfully'}),200)
 
 
 #!deleteBlock
-@app.route('/delete/block',methods=['GET'])
-def deleteBlock():
-        print('All Block ', Block.query.all())
-        # transaction = Block.query.get(id)
-        # db.session.delete(transaction)
-        # db.session.commit()
-        return make_response(jsonify({'message': 'Transaction Delete Successfully'}),200)
+@app.route('/delete/block/<int:block_id>',methods=['DELETE'])
+def deleteBlock(block_id):
+        block = Block.query.get(block_id)
+        db.session.delete(block)
+        db.session.commit()
+        return make_response(jsonify({'message':'Block Delete Successfully'}),200)
 
 
+#__name__ == __main__
 if __name__ =='__main__':  
-    app.run(debug=True)
+    app.run(use_reloader=True)
