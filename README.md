@@ -2,7 +2,7 @@ KickStart Clone BlockChain Format
 
 ## Technologies
 
-====================================================================================
+</hr>
 
 ## FrontEnd
     -Node.js
