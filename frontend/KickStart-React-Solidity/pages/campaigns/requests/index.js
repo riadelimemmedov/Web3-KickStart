@@ -14,6 +14,8 @@ import { Link } from '../../../routes.js';
 import Campaign from '../../../ethereum/build/Campaign.json'
 import web3 from '../../../ethereum/web3.js'
 
+
+//!RequestIndex
 class RequestIndex extends Component{
     static async getInitialProps(props){
         const {address} = props.query //using object destructuring,extract data from object and maps to news,distinct variables

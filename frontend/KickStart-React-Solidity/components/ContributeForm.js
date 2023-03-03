@@ -10,6 +10,7 @@ import { Link } from '../routes.js';
 import Campaign from "../ethereum/campaign.js";
 import web3 from "../ethereum/web3.js";
 
+
 //!ContributeForm
 class ContributeForm extends Component{
     state = {

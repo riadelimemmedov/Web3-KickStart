@@ -11,6 +11,7 @@ import { Link } from '../routes.js';
 import Layout from '../components/Layout.js'
 
 
+//!Campaign
 class Campaign extends Component{
     static async getInitialProps(){
         const campaigns = await campaign_factory.methods.getDeployedCampaigns().call()

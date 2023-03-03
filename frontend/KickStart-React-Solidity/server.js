@@ -8,7 +8,6 @@ const app = next({
 const routes = require('./routes.js')
 const handler = routes.getRequestHandler(app)//returns a request handler which we can use to parse all HTTP requests.
 
-console.log('handler value is ', handler)
 
 app.prepare().then(()=>{//It prepare or make the next.js code ready to use another server (In their example express) for handling SSR.
     createServer(handler).listen(3000,(err)=>{

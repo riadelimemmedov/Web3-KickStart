@@ -16,7 +16,6 @@ else{
 export default web3
 
 
-
 //if using only create react app javascript code run browser only
 //if using next js javascript code run node js server
 

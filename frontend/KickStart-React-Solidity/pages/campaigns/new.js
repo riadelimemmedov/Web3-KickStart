@@ -14,7 +14,7 @@ import campaign_factory from '../../ethereum/campaign_factory.js'
 import web3 from '../../ethereum/web3.js'
 
 
-
+//!CampaignNew
 class CampaignNew extends Component  {
     state = {
         minimumContribution:'0',

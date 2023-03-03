@@ -13,6 +13,7 @@ import Campaign from '../../../ethereum/build/Campaign.json'
 import web3 from '../../../ethereum/web3.js'
 
 
+//!RequestNew
 class RequestNew extends Component{
     state = {
         //?For creating new instance campaign requests

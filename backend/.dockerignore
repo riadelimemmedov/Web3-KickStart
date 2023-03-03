@@ -1,0 +1,6 @@
+.idea/
+.venv/
+contributors.txt
+*.pyc
+.git/
+pgdb

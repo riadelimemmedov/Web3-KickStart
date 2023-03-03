@@ -4,29 +4,26 @@ from flask import Flask, jsonify,render_template, request,redirect,url_for,make_
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy_serializer import SerializerMixin
 from flask_cors import CORS
-from decouple import config
-
-import requests
-
 
 
 #!Python Modules
 from datetime import datetime
+import requests
+from decouple import config
+
 
 
 #?configution
 DEBUG=True
 
-print('Database Url Value ', config("DATABASE_URL"))
-
-
 #?instantiate the app
 app = Flask(__name__)
-# app.config['SQLALCHEMY_DATABASE_URI'] = config("DATABASE_URL")
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////Users/riade/SQLITE/backend.db'
+# app.config['SQLALCHEMY_DATABASE_URI'] = config("DATABASE_URL") => for docker
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////Users/riade/SQLITE/backend.db' #=> for sqlite
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config.from_object(__name__)
 db = SQLAlchemy(app) 
+
 
 #?enable CORS
 cors = CORS(app, resources={r'/*': {'origins': '*'}})
@@ -70,6 +67,8 @@ class Transaction(db.Model,SerializerMixin):
 with app.app_context():
     db.create_all()
 
+
+#!pingPongView
 @app.route('/',methods=['GET'])
 def pingPongView():
     return {'Ping':'Pong'}
@@ -79,7 +78,6 @@ def pingPongView():
 #!createBlock
 @app.route('/create/block/<int:block_number>',methods=['POST'])
 def createBlock(block_number):
-    print('call createa block funtion ', block_number)
     url = "https://api-goerli.etherscan.io/api?module=block&action=getblockreward&blockno={}&apikey={}".format(block_number,config('API_KEY_GEORLI'))
     response = requests.get(url).json()    
     
@@ -93,7 +91,7 @@ def createBlock(block_number):
     )
     db.session.add(new_block)
     db.session.commit()
-    return make_response(jsonify({'Message':'Block Created Successfully'},201))
+    return make_response(jsonify({'message':'Block Created Successfully'},201))
 
 
 
@@ -103,7 +101,7 @@ def createTransaction():
     try:
         if request.method  == 'POST':
             data = request.get_json()['campaign']
-                        
+            
             new_transactions = Transaction(
                 blockHash=data['blockHash'],
                 fromUser=data['from'],
@@ -120,8 +118,6 @@ def createTransaction():
         return make_response(jsonify({'message': 'Error When Creating Transaction'}),500)
 
 
-
-
 #!getAllTransactions
 @app.route('/transactions',methods=['GET'])
 def getAllTransactions():
@@ -134,7 +130,6 @@ def getAllTransactions():
 def getAllBlocks():
     blocks = Block.query.all()
     return make_response(jsonify([block.json() for block in blocks]),200)
-
 
 
 

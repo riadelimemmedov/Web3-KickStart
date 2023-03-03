@@ -261,5 +261,6 @@ poetry.toml
 .ruff_cache/
 
 .django_setup.py
+.note.txt
 
 # End of https://www.toptal.com/developers/gitignore/api/flask,python,ninja

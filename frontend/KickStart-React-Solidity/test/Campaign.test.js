@@ -12,6 +12,7 @@ let factory;
 let campaign;
 let campaignAdress;
 
+
 //*beforeEach
 beforeEach(async()=>{
     accounts = await web3.eth.getAccounts()
@@ -21,7 +22,6 @@ beforeEach(async()=>{
         .deploy({data:compiledCampaignFactory.evm.bytecode.object})
         .send({from:accounts[1],gas:'4712388'})
 
-    console.log('ala bir defe isle ', factory.options.address)
 
     //!create Campaign object from CampainFactory contract
     await factory.methods.createCampaign('100').send({
@@ -32,7 +32,6 @@ beforeEach(async()=>{
 
     //!connect to already exists node with contact adress
     [campaignAdress] = await factory.methods.getDeployedCampaigns().call()
-    console.log('bunedid ala ', campaignAdress)
     campaign = await new web3.eth.Contract(//create new contract from Campaign contract
         compiledCampaign.abi,
         campaignAdress//The address of the smart contract to call,which this adress already exits blockchain.
