@@ -1,5 +1,8 @@
 import Web3 from "web3";
 
+require('dotenv').config()
+
+
 let web3;
 if(typeof window !== 'undefined' && typeof window.ethereum !== 'undefined'){
     //We are in the browser and metamask is running
@@ -9,7 +12,7 @@ if(typeof window !== 'undefined' && typeof window.ethereum !== 'undefined'){
 else{
     //We are on the server OR the user is not running metamask
     const provider = new Web3.providers.HttpProvider(//interact cloud node
-        'https://goerli.infura.io/v3/53b00303e6804f0685f33e1ce7e30432'
+        process.env.GEORLI_NODE_URL
     )
     web3 = new Web3(provider)
 }

@@ -1,6 +1,0 @@
-0xafE40E4CC7Af34cbCF449a526988140FD3dB76a6
-
-we need to blokchain address working with flask => for example 0xC0568899a6c6381cd5A5CdBe0dfb37c23c2D5A65,using <https://goerli.etherscan.io/> request to some url and return data save to database with created flak an postgress
-
-
-0x22ea9f6b28db76a7162054c05ed812deb2f519cd

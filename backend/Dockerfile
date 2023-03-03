@@ -3,7 +3,7 @@ FROM python:3.10.7-slim-buster
 
 
 #!set works directory
-WORKDIR /riade/OneDrive/Desktop/flask_react_web3/backend
+WORKDIR '/Your_Project_Path'
 
 
 #!set environment variables
@@ -20,4 +20,4 @@ RUN pip install -r requirements.txt
 
 
 #!copy root folder
-COPY . /riade/OneDrive/Desktop/flask_react_web3/backend/
+COPY . '/Your_Project_Path'
