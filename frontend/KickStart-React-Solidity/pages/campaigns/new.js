@@ -34,7 +34,7 @@ class CampaignNew extends Component  {
         fetch(path,requestOptions)
             .then((response) => response.json())
             .then((data) => console.log('Data', data))
-    }
+        }
 
     // if javascript !"hello" => false
     
