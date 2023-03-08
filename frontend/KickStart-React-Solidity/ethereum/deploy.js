@@ -20,7 +20,7 @@ const deploy = async () => {
     //!deploy Factory
     const factory = await new web3.eth.Contract(compiledCampaignFactory.abi)
         .deploy({data:compiledCampaignFactory.evm.bytecode.object})
-        .send({from:accounts[0],gas:'4712388'})
+        .send({from:accounts[0],gas:'4712388'})//if increase number of block in node supervise gas fees value 
 
     console.log('deployed campaign addrerss ', factory.options.address)
 
