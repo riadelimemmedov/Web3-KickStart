@@ -13,7 +13,7 @@ from decouple import config
 
 
 
-#?configution
+#?configuration
 DEBUG=True
 
 #?instantiate the app
