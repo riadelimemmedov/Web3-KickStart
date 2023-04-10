@@ -13,7 +13,7 @@ let campaign;
 let campaignAdress;
 
 
-//*beforeEach
+//*beforeEach => run this function when run test each time
 beforeEach(async()=>{
     accounts = await web3.eth.getAccounts()
 
